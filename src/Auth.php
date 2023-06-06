@@ -1430,7 +1430,7 @@ class Auth extends CommonGLPI
             Toolbox::manageRedirect($redirect);
         }
 
-       // Redirect to Command Central if not post-only
+       // Redirect to Command * if not post-only
         if (Session::getCurrentInterface() == "helpdesk") {
             if ($_SESSION['glpiactiveprofile']['create_ticket_on_login']) {
                 Html::redirect($CFG_GLPI['root_doc'] . "/front/helpdesk.public.php?create_ticket=1");
@@ -1440,7 +1440,7 @@ class Auth extends CommonGLPI
             if ($_SESSION['glpiactiveprofile']['create_ticket_on_login']) {
                 Html::redirect(Ticket::getFormURL());
             }
-            Html::redirect($CFG_GLPI['root_doc'] . "/front/central.php");
+            Html::redirect($CFG_GLPI['root_doc'] . "/front/ticket.php");
         }
     }
 
