@@ -1045,7 +1045,7 @@ class ReservationItem extends CommonDBChild
         );
         echo "\n</script>\n";
     }
-}
+   
     /**
      * Get available items for a given itemtype
      *
