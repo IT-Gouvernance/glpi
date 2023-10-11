@@ -1011,6 +1011,8 @@ class ReservationItem extends CommonDBChild
      */
     public static function ajaxDropdown(array $post)
     {
+        global $DB, $CFG_GLPI;
+       
         if ($post['idtable'] && class_exists($post['idtable'])) {
             $result = self::getAvailableItems($post['idtable']);
 
@@ -1025,9 +1027,24 @@ class ReservationItem extends CommonDBChild
                     }
                     $items[$row['id']] = $name;
                 }
-                Dropdown::showFromArray($post['name'], $items);
+                $rand = Dropdown::showFromArray($post['name'], $items);
+
+                Ajax::updateItemOnEvent(
+                    'dropdown_items__' . $rand,
+                    'note' . $post['rand'],
+                    $CFG_GLPI["root_doc"] . "/ajax/resanote.php",
+                    ['id' => '__VALUE__'],
+                    ['change', 'focus']
+                );
             }
         }
+       echo "\n<script type='text/javascript' >\n";
+        Ajax::updateItemJsCode(
+            'note' . $post['rand'],
+            $CFG_GLPI["root_doc"] . "/ajax/resanote.php",
+            ['id' => array_key_first($items ?? [0])]
+        );
+        echo "\n</script>\n";
     }
 
     /**
