@@ -91,7 +91,7 @@ class NotificationTargetReservation extends NotificationTarget
 
             if ($item = getItemForItemtype($itemtype)) {
                 $item->getFromDB($reservationitem->getField('items_id'));
-                $this->data["##reservation.note##"] 
+                $this->data["##reservation.note##"]
                                 = $reservationitem->getField('comment');
                 $this->data['##reservation.itemtype##']
                                  = $item->getTypeName(1);
