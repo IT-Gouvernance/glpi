@@ -178,7 +178,7 @@ class NotificationTargetReservation extends NotificationTarget
             'reservation.begin'       => __('Start date'),
             'reservation.end'         => __('End date'),
             'reservation.comment'     => __('Comments'),
-            'reservation.note'        => __('Note'),
+            'reservation.note'        => __('Notes'),
             'reservation.item.entity' => Entity::getTypeName(1),
             'reservation.item.name'   => _n('Associated item', 'Associated items', 1),
             'reservation.item.tech'   => __('Technician in charge of the hardware')
