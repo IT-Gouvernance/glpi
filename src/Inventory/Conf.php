@@ -297,7 +297,7 @@ class Conf extends CommonGLPI
     /**
      * Get possible actions for stale agents
      *
-     * @return string
+     * @return array
      */
     public static function getStaleAgentActions(): array
     {

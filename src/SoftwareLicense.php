@@ -225,7 +225,7 @@ class SoftwareLicense extends CommonTreeDropdown
      * @since 0.85
      * @see CommonDBTM::post_updateItem()
      **/
-    public function post_updateItem($history = 1)
+    public function post_updateItem($history = true)
     {
 
         if (in_array("is_valid", $this->updates)) {
@@ -1206,7 +1206,7 @@ class SoftwareLicense extends CommonTreeDropdown
     /**
      * Get fields to display in the unicity error message
      *
-     * @return an array which contains field => label
+     * @return array
      */
     public function getUnicityFieldsToDisplayInErrorMessage()
     {

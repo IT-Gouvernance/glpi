@@ -618,7 +618,7 @@ class Entity extends CommonTreeDropdown
         $this->cleanEntitySelectorCache();
     }
 
-    public function post_updateItem($history = 1)
+    public function post_updateItem($history = true)
     {
         /** @var \Psr\SimpleCache\CacheInterface $GLPI_CACHE */
         global $GLPI_CACHE;
@@ -1756,8 +1756,7 @@ class Entity extends CommonTreeDropdown
             return false;
         }
 
-       // Notification right applied
-        $canedit = (Infocom::canUpdate() && Session::haveAccessToEntity($ID));
+        $canedit = $entity->can($ID, UPDATE);
 
         echo "<div class='spaced'>";
         if ($canedit) {

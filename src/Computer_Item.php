@@ -247,7 +247,7 @@ class Computer_Item extends CommonDBRelation
     public static function getMassiveActionsForItemtype(
         array &$actions,
         $itemtype,
-        $is_deleted = 0,
+        $is_deleted = false,
         CommonDBTM $checkitem = null
     ) {
 
@@ -326,7 +326,7 @@ class Computer_Item extends CommonDBRelation
      * Print the form for computers or templates connections to printers, screens or peripherals
      *
      * @param Computer $comp         Computer object
-     * @param boolean  $withtemplate Template or basic item (default 0)
+     * @param integer  $withtemplate Template or basic item (default 0)
      *
      * @return void
      **/

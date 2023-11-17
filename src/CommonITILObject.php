@@ -118,7 +118,7 @@ abstract class CommonITILObject extends CommonDBTM
      */
     public function loadUsers(): void
     {
-        if (!empty($this->userlinkclass) && isset($this->fields['id'])) {
+        if (!empty($this->userlinkclass) && !$this->isNewItem()) {
             $class = new $this->userlinkclass();
             $this->lazy_loaded_users = $class->getActors($this->fields['id']);
         } else {
@@ -133,7 +133,7 @@ abstract class CommonITILObject extends CommonDBTM
      */
     protected function loadGroups(): void
     {
-        if (!empty($this->grouplinkclass) && isset($this->fields['id'])) {
+        if (!empty($this->grouplinkclass) && !$this->isNewItem()) {
             $class = new $this->grouplinkclass();
             $this->lazy_loaded_groups = $class->getActors($this->fields['id']);
         } else {
@@ -148,7 +148,7 @@ abstract class CommonITILObject extends CommonDBTM
      */
     public function loadSuppliers(): void
     {
-        if (!empty($this->supplierlinkclass) && isset($this->fields['id'])) {
+        if (!empty($this->supplierlinkclass) && !$this->isNewItem()) {
             $class = new $this->supplierlinkclass();
             $this->lazy_loaded_suppliers = $class->getActors($this->fields['id']);
         } else {
@@ -1477,7 +1477,7 @@ abstract class CommonITILObject extends CommonDBTM
     /**
      * Count active ITIL Objects having given user as observer.
      *
-     * @param int $users_id
+     * @param int $user_id
      *
      * @return int
      */
@@ -2108,7 +2108,7 @@ abstract class CommonITILObject extends CommonDBTM
         return $input;
     }
 
-    public function post_updateItem($history = 1)
+    public function post_updateItem($history = true)
     {
         // Handle rich-text images and uploaded documents
         $this->input = $this->addFiles($this->input, ['force_update' => true]);
@@ -3733,7 +3733,7 @@ abstract class CommonITILObject extends CommonDBTM
      * @param $values    String / Array with the value to display
      * @param $options   Array          of option
      *
-     * @return a string
+     * @return string
      **/
     public static function getSpecificValueToDisplay($field, $values, array $options = [])
     {
@@ -7302,12 +7302,15 @@ abstract class CommonITILObject extends CommonDBTM
 
         Plugin::doHook(Hooks::SHOW_IN_TIMELINE, ['item' => $this, 'timeline' => &$timeline]);
 
-       //sort timeline items by date
+        //sort timeline items by date. If items have the same date, sort by id
         $reverse = $params['sort_by_date_desc'];
         usort($timeline, function ($a, $b) use ($reverse) {
             $date_a = $a['item']['date_creation'] ?? $a['item']['date'];
             $date_b = $b['item']['date_creation'] ?? $b['item']['date'];
             $diff = strtotime($date_a) - strtotime($date_b);
+            if ($diff === 0) {
+                $diff = $a['item']['id'] - $b['item']['id'];
+            }
             return $reverse ? 0 - $diff : $diff;
         });
 
@@ -9485,6 +9488,7 @@ abstract class CommonITILObject extends CommonDBTM
             $all_statuses = static::getAllStatusArray();
             foreach ($all_statuses as $status_id => $status) {
                 $columns['status'][$status_id] = [
+                    'id'           => $status_id,
                     'name'         => $status,
                     'color_class'  => 'itilstatus ' . static::getStatusKey($status_id),
                     'drop_only'    => (int) $status_id === self::CLOSED

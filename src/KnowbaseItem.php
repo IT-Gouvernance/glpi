@@ -859,7 +859,7 @@ class KnowbaseItem extends CommonDBVisible implements ExtraVisibilityCriteria
         return $input;
     }
 
-    public function post_updateItem($history = 1)
+    public function post_updateItem($history = true)
     {
         // Handle rich-text images and uploaded documents
         $this->input = $this->addFiles(
@@ -2128,7 +2128,7 @@ class KnowbaseItem extends CommonDBVisible implements ExtraVisibilityCriteria
      * @param string $type    type : recent / popular / not published
      * @param bool   $display if false, return html
      *
-     * @return void
+     * @return void|string
      **/
     public static function showRecentPopular(string $type = "", bool $display = true)
     {

@@ -95,7 +95,6 @@ class Config extends DbTestCase
             'Config$4'      => 'Assistance',
             'Config$12'     => 'Management',
             'GLPINetwork$1' => 'GLPI Network',
-            'Log$1'         => 'Historical',
         ];
         $this
          ->given($this->newTestedInstance)
@@ -922,5 +921,14 @@ class Config extends DbTestCase
                 $this->string($CFG_GLPI['root_doc'])->isEqualTo($prefix);
             }
         }
+    }
+
+    public function testConfigLogNotEmpty()
+    {
+        $itemtype = 'Config';
+        $config_id = \Config::getConfigIDForContext('core');
+        $this->integer($config_id)->isGreaterThan(0);
+        $total_number = countElementsInTable("glpi_logs", ['items_id' => $config_id, 'itemtype' => $itemtype]);
+        $this->integer($total_number)->isGreaterThan(0);
     }
 }

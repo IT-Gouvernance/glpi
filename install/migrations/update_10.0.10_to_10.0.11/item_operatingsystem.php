@@ -33,39 +33,10 @@
  * ---------------------------------------------------------------------
  */
 
-/** @var array $CFG_GLPI */
-global $CFG_GLPI;
+/**
+ * @var \Migration $migration
+ */
 
-$SECURITY_STRATEGY = 'no_check';
-
-include('../inc/includes.php');
-
-if (
-    !$CFG_GLPI['notifications_mailing']
-    || !countElementsInTable(
-        'glpi_notifications',
-        ['itemtype' => 'User', 'event' => 'passwordforget', 'is_active' => 1]
-    )
-) {
-    exit();
-}
-
-$user = new User();
-
-// Manage lost password
-// REQUEST needed : GET on first access / POST on submit form
-if (isset($_REQUEST['password_forget_token'])) {
-    if (isset($_POST['password'])) {
-        $user->showUpdateForgottenPassword($_REQUEST);
-    } else {
-        User::showPasswordForgetChangeForm($_REQUEST['password_forget_token']);
-    }
-} else {
-    if (isset($_POST['email'])) {
-        $user->showForgetPassword($_POST['email']);
-    } else {
-        User::showPasswordForgetRequestForm();
-    }
-}
-
-exit();
+$migration->addField('glpi_items_operatingsystems', 'company', "varchar(255) NULL DEFAULT NULL");
+$migration->addField('glpi_items_operatingsystems', 'owner', "varchar(255) NULL DEFAULT NULL");
+$migration->addField('glpi_items_operatingsystems', 'hostid', "varchar(255) NULL DEFAULT NULL");

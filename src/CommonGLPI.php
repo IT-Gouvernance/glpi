@@ -604,7 +604,7 @@ class CommonGLPI implements CommonGLPIInterface
      * @since 0.83
      *
      * @param CommonGLPI $item         Item on which the tab need to be displayed
-     * @param boolean    $withtemplate is a template object ? (default 0)
+     * @param integer    $withtemplate is a template object ? (default 0)
      *
      *  @return string tab name
      **/
@@ -621,7 +621,7 @@ class CommonGLPI implements CommonGLPIInterface
      *
      * @param CommonGLPI $item         Item on which the tab need to be displayed
      * @param integer    $tabnum       tab number (default 1)
-     * @param boolean    $withtemplate is a template object ? (default 0)
+     * @param integer    $withtemplate is a template object ? (default 0)
      *
      * @return boolean
      **/
@@ -636,7 +636,7 @@ class CommonGLPI implements CommonGLPIInterface
      *
      * @param CommonGLPI $item         Item on which the tab need to be displayed
      * @param string     $tab          tab name
-     * @param boolean    $withtemplate is a template object ? (default 0)
+     * @param integer    $withtemplate is a template object ? (default 0)
      * @param array      $options      additional options to pass
      *
      * @return boolean true
@@ -675,6 +675,7 @@ class CommonGLPI implements CommonGLPIInterface
                 $options['withtemplate'] = $withtemplate;
 
                 if ($tabnum == 'main') {
+                    /** @var CommonDBTM $item */
                     Plugin::doHook(Hooks::PRE_SHOW_ITEM, ['item' => $item, 'options' => &$options]);
                     $ret = $item->showForm($item->getID(), $options);
 
@@ -708,7 +709,7 @@ class CommonGLPI implements CommonGLPIInterface
      * @param string  $text text to display
      * @param integer $nb   number of items (default 0)
      *
-     *  @return array array containing the onglets
+     *  @return string
      **/
     public static function createTabEntry($text, $nb = 0)
     {
